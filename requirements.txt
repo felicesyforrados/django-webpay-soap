@@ -1,0 +1,2 @@
+git+ssh://git@github.com/felicesyforrados/suds.git@2017.03.07
+git+ssh://git@github.com/felicesyforrados/py-wsse.git@2017.03.07
