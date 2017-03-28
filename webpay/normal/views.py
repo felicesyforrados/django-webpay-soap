@@ -74,7 +74,9 @@ def webpay_normal_termina(request):
     Vista generica que ayuda a recibir el ultimo paramtero de Transbank
     """
     token = request.POST.get("token_ws")
-    webpaymodel = WebpayNormal.objects.get(token=token)
-    response = "Transaccion {} exitosa de la Orden de compra {}".format(
-        "" if token else "NO", webpaymodel.buyOrder)
+    response = None
+    if token:
+        webpaymodel = WebpayNormal.objects.get(token=token)
+        response = "Transaccion {} exitosa de la Orden de compra {}".format(
+            "" if token else "NO", webpaymodel.buyOrder)
     return HttpResponse(response)
