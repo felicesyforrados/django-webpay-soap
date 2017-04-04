@@ -1,6 +1,7 @@
 # !/usr/bin/env python
 # -*- coding: utf-8 -*-
 from django.db import models
+from .conf import STATUS_CODES
 from .signals import webpay_normal_ok
 
 
@@ -43,6 +44,13 @@ class WebpayNormal(models.Model):
         """
         if self.responseCode == 0:  # Pagado
             webpay_normal_ok.send(sender=self)
+
+    @property
+    def status(self):
+        """
+        Estatus humanizado
+        """
+        return STATUS_CODES.get(responseCode)
 
     def __unicode__(self):
         if self.paymentTypeCode == 'VN' or self.paymentTypeCode == 'VD':
