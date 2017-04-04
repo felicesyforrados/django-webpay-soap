@@ -50,7 +50,7 @@ class WebpayNormal(models.Model):
         """
         Estatus humanizado
         """
-        return STATUS_CODES.get(responseCode)
+        return STATUS_CODES.get(self.responseCode)
 
     def __unicode__(self):
         if self.paymentTypeCode == 'VN' or self.paymentTypeCode == 'VD':
