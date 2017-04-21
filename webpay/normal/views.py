@@ -41,7 +41,7 @@ def webpay_normal_verificacion(request):
     el token del estado de una transaccion.
     """
     token = request.POST.get("token_ws")
-    logger.debug("Data recibida por Transbank {}".format(request))
+    logger.debug("Data recibida por Transbank {}".format(request.POST))
     if token:
         try:
             get_normal_transaction = WebpayNormalWS().getTransaction(token)
