@@ -47,7 +47,6 @@ def webpay_normal_verificacion(request):
     if token:
         try:
             get_normal_transaction = WebpayNormalWS().getTransaction(token)
-            urlRedirection = get_normal_transaction['urlRedirection']
             webpaymodel = webpay_normal_model(get_normal_transaction)
             logger.debug('Pago BuyOrder {}. Respuesta {}'.format(
                 webpaymodel.buyOrder,
@@ -55,6 +54,8 @@ def webpay_normal_verificacion(request):
             # Informamos a Tranbank la correcta recepcion. Si no se informa
             # entonces transbank reversa la transaccion.
             WebpayNormalWS().acknowledgeTransaction(token)
+            # Obtenemos la redirecion correcta
+            urlRedirection = get_normal_transaction['urlRedirection']
         except Exception, e:
             logger.error('Ocurrio un error al consultar Token enviado por Transbank. Error {} Traza {}'.format(
                 e, traceback.format_exc()))
