@@ -29,8 +29,8 @@ def webpay_normal_model(get_normal_transaction):
     webpaymodel.amount = int(get_normal_transaction.detailOutput[0]['amount'])
     webpaymodel.sharesNumber = get_normal_transaction.detailOutput[0]['sharesNumber']
     webpaymodel.commerceCode = get_normal_transaction.detailOutput[0]['commerceCode']
-    webpaymodel.save()
     webpaymodel.send_signals()
+    webpaymodel.save()
     return webpaymodel
 
 
@@ -41,10 +41,12 @@ def webpay_normal_verificacion(request):
     el token del estado de una transaccion.
     """
     token = request.POST.get("token_ws")
+    urlRedirection = settings.WEBPAY_URL_FINAL
     logger.debug("Data recibida por Transbank {}".format(request.POST))
     if token:
         try:
             get_normal_transaction = WebpayNormalWS().getTransaction(token)
+            urlRedirection = get_normal_transaction['urlRedirection']
             webpaymodel = webpay_normal_model(get_normal_transaction)
             logger.debug('Pago BuyOrder {}. Respuesta {}'.format(
                 webpaymodel.buyOrder,
@@ -52,20 +54,20 @@ def webpay_normal_verificacion(request):
             # Informamos a Tranbank la correcta recepcion. Si no se informa
             # entonces transbank reversa la transaccion.
             WebpayNormalWS().acknowledgeTransaction(token)
-            # Haremos un response del Token que nos envia Transbank y haremos un
-            # automatico redirect con JS
-            response = """
-                <body background="https://webpay3g.transbank.cl/webpayserver/imagenes/background.gif">
-                    <form action='{}' method='post' id='webpay_form'>
-                        <input type='hidden' name='token_ws' value='{}'>
-                    </form>
-                    <script>document.getElementById('webpay_form').submit();</script>
-                </body>
-            """.format(get_normal_transaction['urlRedirection'], token)
-            return HttpResponse(response)
         except Exception, e:
             logger.error('Ocurrio un error al consultar Token enviado por Transbank. Error {} Traza {}'.format(
                 e, traceback.format_exc()))
+        # Haremos un response del Token que nos envia Transbank y haremos un
+        # automatico redirect con JS
+        response = """
+            <body background="https://webpay3g.transbank.cl/webpayserver/imagenes/background.gif">
+                <form action='{}' method='post' id='webpay_form'>
+                    <input type='hidden' name='token_ws' value='{}'>
+                </form>
+                <script>document.getElementById('webpay_form').submit();</script>
+            </body>
+        """.format(urlRedirection, token)
+        return HttpResponse(response)
     return HttpResponseBadRequest()
 
 
