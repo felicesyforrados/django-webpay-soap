@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 import logging
 import traceback
+from django.conf import settings
 from django.http import HttpResponse, HttpResponseBadRequest
 from django.views.decorators.csrf import csrf_exempt
 
