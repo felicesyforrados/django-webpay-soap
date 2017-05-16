@@ -4,6 +4,7 @@ import logging
 import traceback
 from django.conf import settings
 from django.http import HttpResponse, HttpResponseBadRequest
+from django.template import Context, Template
 from django.views.decorators.csrf import csrf_exempt
 
 from .communication import WebpayNormalWS
@@ -61,15 +62,16 @@ def webpay_normal_verificacion(request):
                 e, traceback.format_exc()))
         # Haremos un response del Token que nos envia Transbank y haremos un
         # automatico redirect con JS
-        response = """
-            <body background="https://webpay3g.transbank.cl/webpayserver/imagenes/background.gif">
-                <form action='{}' method='post' id='webpay_form'>
-                    <input type='hidden' name='token_ws' value='{}'>
+        template = Template("""
+            <body background='https://webpay3g.transbank.cl/webpayserver/imagenes/background.gif'>
+                <form action='{{urlRedirection}}' method='post' id='webpay_form'>
+                    <input type='hidden' name='token_ws' value='{{token}}'>
                 </form>
                 <script>document.getElementById('webpay_form').submit();</script>
             </body>
-        """.format(urlRedirection, token)
-        return HttpResponse(response)
+        """)
+        context = Context({"urlRedirection": urlRedirection, "token": token})
+        return HttpResponse(template.render(context))
     return HttpResponseBadRequest()
 
 
