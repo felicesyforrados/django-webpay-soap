@@ -58,8 +58,8 @@ def webpay_normal_verificacion(request):
             # Obtenemos la redirecion correcta
             urlRedirection = get_normal_transaction['urlRedirection']
         except Exception, e:
-            logger.error('Ocurrio un error al consultar Token enviado por Transbank. Error {} Traza {}'.format(
-                e, traceback.format_exc()))
+            logger.error('Ocurrio un error al consultar Token enviado por Transbank {}. Error {} Traza {}'.format(
+                token, e, traceback.format_exc()))
         # Haremos un response del Token que nos envia Transbank y haremos un
         # automatico redirect con JS
         template = Template("""
