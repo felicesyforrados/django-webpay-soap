@@ -48,13 +48,13 @@ def webpay_normal_verificacion(request):
     if token:
         try:
             get_normal_transaction = WebpayNormalWS().getTransaction(token)
+            # Informamos a Tranbank la correcta recepcion. Si no se informa
+            # entonces transbank reversa la transaccion.
+            WebpayNormalWS().acknowledgeTransaction(token)
             webpaymodel = webpay_normal_model(get_normal_transaction)
             logger.debug('Pago BuyOrder {}. Respuesta {}'.format(
                 webpaymodel.buyOrder,
                 webpaymodel.responseCode))
-            # Informamos a Tranbank la correcta recepcion. Si no se informa
-            # entonces transbank reversa la transaccion.
-            WebpayNormalWS().acknowledgeTransaction(token)
             # Obtenemos la redirecion correcta
             urlRedirection = get_normal_transaction['urlRedirection']
         except Exception, e:
