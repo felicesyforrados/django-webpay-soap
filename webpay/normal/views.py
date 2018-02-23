@@ -47,6 +47,7 @@ def webpay_normal_verificacion(request):
     logger.debug("Data recibida por Transbank {}".format(request.POST))
     if token:
         try:
+            # Obtenemos la informacion de la orden de compra en base al token
             get_normal_transaction = WebpayNormalWS().getTransaction(token)
             # Informamos a Tranbank la correcta recepcion. Si no se informa
             # entonces transbank reversa la transaccion.
@@ -61,7 +62,8 @@ def webpay_normal_verificacion(request):
             logger.error('Ocurrio un error al consultar Token enviado por Transbank {}. Error {} Traza {}'.format(
                 token, e, traceback.format_exc()))
         # Haremos un response del Token que nos envia Transbank y haremos un
-        # automatico redirect con JS
+        # automatico redirect con JS, es necesario para que podamos volver
+        # el sitio de transbank
         template = Template("""
             <body background='https://webpay3g.transbank.cl/webpayserver/imagenes/background.gif'>
                 <form action='{{urlRedirection}}' method='post' id='webpay_form'>
