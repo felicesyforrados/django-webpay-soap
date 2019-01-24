@@ -68,7 +68,7 @@ class WebpayOneClickWS():
         Obtenemos la informacion de nuestro cliente.
         """
         return Client(
-            settings.WEBPAY_WSDL,
+            settings.WEBPAY_ONECLICK_WSDL,
             transport=HttpTransport(),
             wsse=Security(),
             plugins=[
