@@ -41,7 +41,7 @@ def webpay_oneclick_finish(request):
             get_finish_inscription = WebpayOneClickWS().finishInscription(token)
             logger.debug('Webpay OneClick. Token {} Respuesta {}'.format(
                 token, get_finish_inscription))
-            webpay_oneclick_model(get_finish_inscription)
+            webpay_oneclick_model(token, get_finish_inscription)
         except Exception, e:
             logger.error('Webpay OneClick. Ocurrion un error al consultar Token enviado por Transbank {}. Error {} Traza {}'.format(
                 token, e, traceback.format_exc()))
