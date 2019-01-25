@@ -19,6 +19,7 @@ class WebpayOneClickInscription(models.Model):
         'Tipo de tarjeta inscrita por el cliente', max_length=10, blank=True)
     card_number = models.CharField(
         'Últimos 4 números de la tarjeta', max_length=4, blank=True)
+    inscrito = models.BooleanField('Esta inscrito correctamente', default=False)
     date_inscription = models.DateTimeField(auto_now=True)
 
 
