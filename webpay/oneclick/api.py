@@ -1,4 +1,5 @@
 from .communication import WebpayOneClickWS
+from .models import WebpayOneClickInscription
 
 
 class WebpayOneClickInitInscription():
@@ -27,5 +28,7 @@ class WebpayOneClickAPI():
             Object [token, url]
         """
         wo = WebpayOneClickWS().initInscription(username, email, response_url)
-        return WebpayOneClickInitInscription(
-            token=wo['token'], url=wo['urlWebpay'])
+        token = wo['token']
+        model = WebpayOneClickInscription(user=username, token=token)
+        mode.save()
+        return WebpayOneClickInitInscription(token=token, url=wo['urlWebpay'])
