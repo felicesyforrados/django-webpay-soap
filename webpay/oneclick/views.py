@@ -16,13 +16,12 @@ def webpay_oneclick_model(token, get_finish_inscription):
     """
     Metodo que ayudara a guardar el modelo.
     """
-    oneclick_model = WebpayOneClickInscription.objects.get(
-        token=token, response_code__isnull=True)
-    oneclick_model.tbk_user = get_finish_inscription.get('tbkUser')
-    oneclick_model.response_code = get_finish_inscription.get('responseCode')
-    oneclick_model.authorization_code = get_finish_inscription.get('authCode')
-    oneclick_model.card_number = get_finish_inscription.get('last4CardDigits')
-    oneclick_model.creditcard_type = get_finish_inscription.get('creditCardType')
+    oneclick_model = WebpayOneClickInscription.objects.get(token=token)
+    oneclick_model.tbk_user = get_finish_inscription['tbkUser']
+    oneclick_model.response_code = get_finish_inscription['responseCode']
+    oneclick_model.authorization_code = get_finish_inscription['authCode']
+    oneclick_model.card_number = get_finish_inscription['last4CardDigits']
+    oneclick_model.creditcard_type = get_finish_inscription['creditCardType']
     oneclick_model.save()
 
 
