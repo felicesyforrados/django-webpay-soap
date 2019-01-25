@@ -28,7 +28,7 @@ class WebpayOneClickAPI():
             Object [token, url]
         """
         model, created = WebpayOneClickInscription.objects.get_or_create(user=username)
-        if created and model.inscrito:
+        if not created and model.inscrito is True:
             raise Exception('User is subscribed')
         wo = WebpayOneClickWS().initInscription(username, email, response_url)
         token = wo['token']
