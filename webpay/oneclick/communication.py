@@ -73,9 +73,9 @@ class WebpayOneClickWS():
             wsse=Security(),
             plugins=[
                 WssePlugin(
-                    keyfile=settings.WEBPAY_OUR_PRIVATE_KEY,
-                    certfile=settings.WEBPAY_OUR_PUBLIC_CERT,
-                    their_certfile=settings.WEBPAY_CERT,
+                    keyfile=settings.WEBPAY_ONECLICK_OUR_PRIVATE_KEY,
+                    certfile=settings.WEBPAY_ONECLICK_OUR_PUBLIC_CERT,
+                    their_certfile=settings.WEBPAY_ONECLICK_CERT,
                 ),
             ],
         )

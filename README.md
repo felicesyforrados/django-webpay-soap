@@ -19,15 +19,6 @@ Configuración General
   > Código comercio
   >> WEBPAY_COMMERCE_CODE = '597020000541'
 
-  > Nuestra llave privada .pem
-  >> WEBPAY_OUR_PRIVATE_KEY = BASE_DIR + '/certs/ourprivatekey.pem'
-
-  > Nuestra certificado público .pem
-  >> WEBPAY_OUR_PUBLIC_CERT = BASE_DIR + '/certs/ourpublicert.pem'
-
-  > Certificado de WebPay .pem
-  >> WEBPAY_CERT = BASE_DIR + '/certs/webpaycert.pem'
-
 Configurar URLs en el setting.py del comercio.
 
 Configuración Webpay Normal
@@ -41,6 +32,14 @@ Configuración Webpay Normal
   > URL Final del carro de compras.
   >> WEBPAY_URL_FINAL = BASE_URL + '/core/pagos/webpay/final/'
 
+  > Nuestra llave privada .pem
+  >> WEBPAY_OUR_PRIVATE_KEY = BASE_DIR + '/certs/ourprivatekey.pem'
+
+  > Nuestra certificado público .pem
+  >> WEBPAY_OUR_PUBLIC_CERT = BASE_DIR + '/certs/ourpublicert.pem'
+
+  > Certificado de WebPay .pem
+  >> WEBPAY_CERT = BASE_DIR + '/certs/webpaycert.pem'
 
 Configuración Webpay OneClick
 =============================
@@ -50,3 +49,12 @@ Configuración Webpay OneClick
 
   > URL Final del carro de compras.
   >> WEBPAY_ONECLICK_URL_FINAL = BASE_URL + '/core/pagos/webpay/final/'
+
+  > Nuestra llave privada .pem
+  >> WEBPAY_ONECLICK_OUR_PRIVATE_KEY = BASE_DIR + '/certs/ourprivatekey.pem'
+
+  > Nuestra certificado público .pem
+  >> WEBPAY_ONECLICK_OUR_PUBLIC_CERT = BASE_DIR + '/certs/ourpublicert.pem'
+
+  > Certificado de WebPay .pem
+  >> WEBPAY_ONECLICK_CERT = BASE_DIR + '/certs/webpaycert.pem'
