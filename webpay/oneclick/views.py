@@ -22,7 +22,7 @@ def webpay_oneclick_model(token, get_finish_inscription):
     oneclick_model.authorization_code = get_finish_inscription['authCode']
     oneclick_model.card_number = get_finish_inscription['last4CardDigits']
     oneclick_model.creditcard_type = get_finish_inscription['creditCardType']
-    if oneclick_model.response_code == '0'
+    if oneclick_model.response_code == '0':
         oneclick_model.inscrito = True
     oneclick_model.save()
 
