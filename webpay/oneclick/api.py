@@ -30,5 +30,5 @@ class WebpayOneClickAPI():
         wo = WebpayOneClickWS().initInscription(username, email, response_url)
         token = wo['token']
         model = WebpayOneClickInscription(user=username, token=token)
-        mode.save()
+        model.save()
         return WebpayOneClickInitInscription(token=token, url=wo['urlWebpay'])
