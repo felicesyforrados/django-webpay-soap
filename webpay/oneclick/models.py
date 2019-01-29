@@ -1,5 +1,7 @@
 from django.db import models
 
+from .conf import RESPONSE_CODES
+
 
 class WebpayOneClickInscription(models.Model):
     """
@@ -22,6 +24,12 @@ class WebpayOneClickInscription(models.Model):
     inscrito = models.BooleanField('Esta inscrito correctamente', default=False)
     date_inscription = models.DateTimeField(auto_now=True)
 
+    @property
+    def humanized_response_code(self):
+        """
+        Response code humanizado
+        """
+        return RESPONSE_CODES.get(self.response_code)
 
     class Meta:
         db_table = "webpay_oneclick_inscription"
