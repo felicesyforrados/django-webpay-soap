@@ -81,7 +81,7 @@ class WebpayOneClickAPI():
 
         # Guardamos la info del pago que se inicia
         wop = WebpayOneClickPayment.objects.create(
-            user=woi.user, buy_order=buy_order, amount=amount)
+            inscription=woi, buy_order=buy_order, amount=amount)
 
         # Se inicia la comunicacion con Transbank.
         wo = WebpayOneClickWS().authorizePayment(
