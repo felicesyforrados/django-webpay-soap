@@ -91,8 +91,8 @@ class WebpayOneClickAPI():
             tbk_user=tbk_user,
             username=username,
             amount=amount,
-            authorization_code=wo['authorization_code'],
-            credit_card_type=wo['credit_card_type'],
-            last4_card_digits=wo['last4_card_digits'],
-            transaction_id=wo['transaction_id'],
-            response_code=wo['response_code'])
+            authorization_code=wo['authorizationCode'],
+            credit_card_type=wo['creditCardType'],
+            last4_card_digits=wo['last4CardDigits'],
+            transaction_id=wo['transactionId'],
+            response_code=wo['responseCode'])
