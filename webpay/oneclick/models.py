@@ -32,6 +32,9 @@ class WebpayOneClickInscription(models.Model):
         """
         return RESPONSE_CODES.get(self.response_code)
 
+    def __unicode__(self):
+        return "User: {}".format(user)
+
     class Meta:
         db_table = "webpay_oneclick_inscription"
         verbose_name = "Webpay OneClick Inscription"
