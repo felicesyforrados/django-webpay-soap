@@ -61,6 +61,33 @@ class WebpayOneClickWS():
         finish_inscription = client.service.finishInscription(finish_input)
         return finish_inscription
 
+    @staticmethod
+    def authorizePayment(buy_order, tbk_user, username, amount):
+        """
+        Realizamos un pago al usuario correspondiente
+        @Sent values:
+            buy_order
+            tbk_user
+            username
+            amount
+        @Return Values
+            authorizationCode
+            creditCardType
+            last4CardDigits
+            transactionId
+            responseCode
+        """
+        client = WebpayOneClickWS.get_client()
+        client.options.cache.clear()
+
+        authorize_input = client.factory.create('oneClickPayInput')
+        authorize_input.buyOrder = buy_order
+        authorize_input.tbkUser = tbk_user
+        authorize_input.username = username
+        authorize_input.amount = amount
+
+        authorize_payment = client.service.authorize(authorize_input)
+        return authorize_payment
 
     @staticmethod
     def get_client():
