@@ -11,23 +11,6 @@ class WebpayOneClickInitInscription():
         self.token = token
         self.url = url
 
-class WebpayOneClickAuthorization():
-    """
-    Clase que ayudara a normalizar los valores retornados por authorizePayment
-    """
-    def __init__(
-        self, buy_order, tbk_user, username, amount, authorization_code,
-        credit_card_type, last4_card_digits, transaction_id, response_code):
-        self.buy_order = buy_order
-        self.tbk_user = tbk_user
-        self.username = username
-        self.amount = amount
-        self.authorization_code = authorization_code
-        self.credit_card_type = credit_card_type
-        self.last4_card_digits = last4_card_digits
-        self.transaction_id = transaction_id
-        self.response_code = response_code
-
 
 class WebpayOneClickAPI():
     """
@@ -86,13 +69,10 @@ class WebpayOneClickAPI():
         # Se inicia la comunicacion con Transbank.
         wo = WebpayOneClickWS().authorizePayment(
             buy_order, tbk_user, username, amount)
-        return WebpayOneClickAuthorization(
-            buy_order=buy_order,
-            tbk_user=tbk_user,
-            username=username,
-            amount=amount,
-            authorization_code=wo['authorizationCode'],
-            credit_card_type=wo['creditCardType'],
-            last4_card_digits=wo['last4CardDigits'],
-            transaction_id=wo['transactionId'],
-            response_code=wo['responseCode'])
+
+        wop.authorization_code=wo['authorizationCode'],
+        wop.credit_card_type=wo['creditCardType'],
+        wop.last4_card_digits=wo['last4CardDigits'],
+        wop.transaction_id=wo['transactionId'],
+        wop.response_code=wo['responseCode'])
+        return wop
