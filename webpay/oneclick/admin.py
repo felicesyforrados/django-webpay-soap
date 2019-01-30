@@ -15,6 +15,6 @@ class WebpayOneClickPaymentAdmin(admin.ModelAdmin):
     """
     Modelo para la administracion de Pagos por Oneclick
     """
-    list_display = ("user", "buy_order", "amount", "response_code")
+    list_display = ("inscription", "buy_order", "amount", "response_code")
 
 admin.site.register(WebpayOneClickPayment, WebpayOneClickInscriptionAdmin)
