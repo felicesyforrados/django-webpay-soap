@@ -62,7 +62,7 @@ class WebpayOneClickAPI():
             woi = WebpayOneClickInscription.objects.get(
                 user=username, inscrito=True)
         except WebpayOneClickInscription.DoesNotExist:
-            raise Exception('Usuario no encontrado inscrito.')
+            raise Exception('Usuario no encontrado inscrito {}.'.format(username))
 
         # Guardamos la info del pago que se inicia
         wop = WebpayOneClickPayment.objects.create(
