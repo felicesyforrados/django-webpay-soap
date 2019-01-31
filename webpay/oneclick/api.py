@@ -75,5 +75,6 @@ class WebpayOneClickAPI():
         wop.last4_card_digits = wo['last4CardDigits']
         wop.transaction_id = wo['transactionId']
         wop.response_code = wo['responseCode']
+        wop.send_signals()
         wop.save()
         return wop

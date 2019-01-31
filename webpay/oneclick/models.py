@@ -2,6 +2,7 @@
 from django.db import models
 
 from .conf import RESPONSE_CODES, PAYMENT_RESPONSE_CODES
+from .signals import webpay_oneclick_inscription_ok, webpay_oneclick_payment_ok
 
 
 class WebpayOneClickInscription(models.Model):
@@ -31,6 +32,13 @@ class WebpayOneClickInscription(models.Model):
         Response code humanizado
         """
         return RESPONSE_CODES.get(self.response_code)
+
+    def send_signals(self):
+        """
+        Enviar signals a la app Django.
+        """
+        if str(self.response_code) == "0":  # Inscrito correctamente
+            webpay_oneclick_inscription_ok.send(sender=self)
 
     def __unicode__(self):
         return "User: {}".format(self.user)
@@ -65,6 +73,13 @@ class WebpayOneClickPayment(models.Model):
         Response code humanizado
         """
         return PAYMENT_RESPONSE_CODES.get(self.response_code)
+
+    def send_signals(self):
+        """
+        Enviar signals a la app Django
+        """
+        if str(self.response_code) == "0":
+            webpay_oneclick_payment_ok.send(sender=self)
 
     class Meta:
         db_table = "webpay_oneclick_payment"
