@@ -25,6 +25,7 @@ class WebpayOneClickInscription(models.Model):
         'Últimos 4 números de la tarjeta', max_length=4, blank=True)
     inscrito = models.BooleanField('Esta inscrito correctamente', default=False)
     date_inscription = models.DateTimeField(auto_now=True)
+    custom = models.CharField(max_length=250, blank=True)
 
     @property
     def humanized_response_code(self):
