@@ -7,9 +7,10 @@ class WebpayOneClickInitInscription():
     Clase que ayudara a convertir los valores retornados en initTransaction
     a un objeto
     """
-    def __init__(self, token, url):
+    def __init__(self, token, url, model):
         self.token = token
         self.url = url
+        self.model = model
 
 
 class WebpayOneClickAPI():
@@ -34,7 +35,8 @@ class WebpayOneClickAPI():
         token = wo['token']
         model.token = token
         model.save()
-        return WebpayOneClickInitInscription(token=token, url=wo['urlWebpay'])
+        return WebpayOneClickInitInscription(
+            token=token, url=wo['urlWebpay'], model=model)
 
     @staticmethod
     def authorizePayment(buy_order, tbk_user, username, amount):
