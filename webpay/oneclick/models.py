@@ -68,6 +68,7 @@ class WebpayOneClickPayment(models.Model):
     response_code = models.CharField(
         'Código respuesta de la autorizacion', max_length=10, blank=True)
     payment_date = models.DateTimeField(auto_now=True)
+    custom = models.CharField(max_length=250, blank=True)
 
     @property
     def humanized_response_code(self):

@@ -39,7 +39,7 @@ class WebpayOneClickAPI():
             token=token, url=wo['urlWebpay'], model=model)
 
     @staticmethod
-    def authorizePayment(buy_order, tbk_user, username, amount):
+    def authorizePayment(buy_order, tbk_user, username, amount, custom):
         """
         Iniciar comunicacion con la capa de autorizacion de pagos y guardaremos
         registro de la transaccion.
@@ -77,6 +77,7 @@ class WebpayOneClickAPI():
         wop.last4_card_digits = wo['last4CardDigits']
         wop.transaction_id = wo['transactionId']
         wop.response_code = wo['responseCode']
+        wop.custom = custom
         wop.send_signals()
         wop.save()
         return wop
