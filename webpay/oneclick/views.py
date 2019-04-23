@@ -35,7 +35,7 @@ def webpay_oneclick_finish(request):
     el token del estado de la inscripcion de Webpay OneClick.
     """
     token = request.POST.get("TBK_TOKEN")
-    urlRedirection = settings.WEBPAY_ONECLICK_URL_FINAL
+    urlRedirection = settings.WEBPAY_ONECLICK_URL_FINAL_INSCRIPCION
     logger.debug("Webpay OneClick. Data recibida por Transbank {}".format(
         request.POST))
     if token:
