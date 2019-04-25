@@ -97,7 +97,7 @@ class WebpayOneClickAPI():
         # Obtenemos el usuario inscrito
         try:
             woi = WebpayOneClickInscription.objects.get(
-                user=username, inscrito=True)
+                user=username, tbk_user=tbk_user, inscrito=True)
         except WebpayOneClickInscription.DoesNotExist:
             raise Exception('Usuario no encontrado inscrito {}.'.format(username))
 
