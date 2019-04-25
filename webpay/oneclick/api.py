@@ -101,7 +101,7 @@ class WebpayOneClickAPI():
         except WebpayOneClickInscription.DoesNotExist:
             raise Exception('Usuario no encontrado inscrito {}.'.format(username))
 
-        wo = WebpayOneClickWS().removeInscription(woi.tbk_user, woi.username)
+        wo = WebpayOneClickWS().removeInscription(woi.tbk_user, woi.user)
 
         if wo is True:
             # Desactivamos al usuario de nuestra DB
