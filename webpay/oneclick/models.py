@@ -2,7 +2,9 @@
 from django.db import models
 
 from .conf import RESPONSE_CODES, PAYMENT_RESPONSE_CODES
-from .signals import webpay_oneclick_inscription_ok, webpay_oneclick_payment_ok
+from .signals import (
+    webpay_oneclick_inscription_ok, webpay_oneclick_payment_ok,
+    webpay_oneclick_remove_inscription_ok)
 
 
 class WebpayOneClickInscription(models.Model):
@@ -40,6 +42,9 @@ class WebpayOneClickInscription(models.Model):
         """
         if str(self.response_code) == "0":  # Inscrito correctamente
             webpay_oneclick_inscription_ok.send(sender=self)
+        # Si se desuscribio hay que avisar por signal
+        if inscrito is False:
+            webpay_oneclick_remove_inscription_ok.send(sender=self)
 
     def __unicode__(self):
         return "User: {}".format(self.user)
