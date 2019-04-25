@@ -90,6 +90,24 @@ class WebpayOneClickWS():
         return authorize_payment
 
     @staticmethod
+    def removeInscription(tbk_user, username):
+        """
+        Metodo que nos ayudara a poder eliminar la inscripcion del cliente.
+        @Sent values:
+            tbk_user
+            username
+        @Return values
+            boolean
+        """
+        client = WebpayOneClickWS.get_client()
+        client.options.cache.clear()
+        remove_inscription = client.factory.create('oneClickRemoveUserInput')
+        remove_inscription.tbkUser = tbk_user
+        remove_inscription.username = username
+        return client.service.removeUser(remove_inscription)
+
+
+    @staticmethod
     def get_client():
         """
         Obtenemos la informacion de nuestro cliente.
