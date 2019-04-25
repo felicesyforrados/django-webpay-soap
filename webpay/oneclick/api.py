@@ -1,5 +1,6 @@
 from .communication import WebpayOneClickWS
 from .models import WebpayOneClickInscription, WebpayOneClickPayment
+from .signals import webpay_oneclick_remove_inscription_ok
 
 
 class WebpayOneClickInitInscription():
@@ -106,6 +107,6 @@ class WebpayOneClickAPI():
         if wo is True:
             # Desactivamos al usuario de nuestra DB
             woi.inscrito = False
-            woi.send_signals()
             woi.save()
+            webpay_oneclick_remove_inscription_ok.send(sender=woi)
         return wo
