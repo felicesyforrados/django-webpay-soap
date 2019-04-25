@@ -81,3 +81,31 @@ class WebpayOneClickAPI():
         wop.send_signals()
         wop.save()
         return wop
+
+    @staticmethod
+    def removeInscription(tbk_user, username):
+        """
+        Metodo que ayudara a revisar la inscripcion de una tarjeta y
+        la desactivara.
+        @Sent values
+            tbk_user
+            username
+        @Return Values
+            boolean
+        """
+        woi = None
+        # Obtenemos el usuario inscrito
+        try:
+            woi = WebpayOneClickInscription.objects.get(
+                user=username, inscrito=True)
+        except WebpayOneClickInscription.DoesNotExist:
+            raise Exception('Usuario no encontrado inscrito {}.'.format(username))
+
+        wo = WebpayOneClickWS().removeInscription(woi.tbk_user, woi.username)
+
+        if wo is True:
+            # Desactivamos al usuario de nuestra DB
+            woi.inscrito = False
+            woi.send_signals()
+            woi.save()
+        return wo
