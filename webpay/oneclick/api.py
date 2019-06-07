@@ -73,11 +73,11 @@ class WebpayOneClickAPI():
         wo = WebpayOneClickWS().authorizePayment(
             buy_order, tbk_user, username, amount)
 
-        wop.authorization_code = wo['authorizationCode']
-        wop.credit_card_type = wo['creditCardType']
-        wop.last4_card_digits = wo['last4CardDigits']
-        wop.transaction_id = wo['transactionId']
-        wop.response_code = wo['responseCode']
+        wop.authorization_code = wo['authorizationCode'] if "authorizationCode" in wo else ""
+        wop.credit_card_type = wo['creditCardType'] if "creditCardType" in wo else ""
+        wop.last4_card_digits = wo['last4CardDigits'] if "last4CardDigits" in wo else ""
+        wop.transaction_id = wo['transactionId'] if "transactionId" in wo else ""
+        wop.response_code = wo['responseCode'] if "responseCode" in wo else ""
         wop.custom = custom
         wop.send_signals()
         wop.save()
