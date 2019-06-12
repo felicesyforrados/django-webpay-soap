@@ -68,6 +68,8 @@ class WebpayOneClickPayment(models.Model):
         'Transaction ID', max_length=4, blank=True)
     response_code = models.CharField(
         'Código respuesta de la autorizacion', max_length=10, blank=True)
+    reverse_code = models.CharField(
+        'Codigo de transaccion reversada', max_length=10, blank=True)
     payment_date = models.DateTimeField(auto_now=True)
     custom = models.CharField(max_length=250, blank=True)
 
