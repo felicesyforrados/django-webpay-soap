@@ -106,6 +106,16 @@ class WebpayOneClickWS():
         remove_inscription.username = username
         return client.service.removeUser(remove_inscription)
 
+    @staticmethod
+    def reversePayment(buy_order):
+        """
+        Metodo que nos ayudara a poder reversar un pago hecho con OneClick
+        """
+        client = WebpayOneClickWS.get_client()
+        client.options.cache.clear()
+        reverse_payment = client.factory.create('oneClickReverseInput')
+        reverse_payment.buyOrder = buy_order
+        return client.service.codeReverseOneClick(reverse_payment)
 
     @staticmethod
     def get_client():

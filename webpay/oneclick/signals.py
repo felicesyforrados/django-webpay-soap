@@ -9,3 +9,5 @@ webpay_oneclick_inscription_ok = Signal()
 webpay_oneclick_payment_ok = Signal()
 
 webpay_oneclick_remove_inscription_ok = Signal()
+
+webpay_oneclick_reverse_payment = Signal()

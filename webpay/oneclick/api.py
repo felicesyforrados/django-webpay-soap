@@ -110,3 +110,21 @@ class WebpayOneClickAPI():
             woi.save()
             webpay_oneclick_remove_inscription_ok.send(sender=woi)
         return wo
+
+    @staticmethod
+    def reversePayment(buy_order):
+        """
+        Metodo que podra reversar un pago ya hecho
+        """
+        try:
+            wop = WebpayOneClickPayment.objects.get(buy_order=buy_order)
+        except WebpayOneClickPayment.DoesNotExist:
+            raise Exception('Orden de compra no existe {} en la reversa de pago'.format(buy_order))
+
+        wo = WebpayOneClickWS().reversePayment(buy_order)
+
+        if wo["reversed"] is True:
+            wop.reverse_code = wo["reverseCode"]
+            wop.save()
+            wop.send_signals()
+        return wop

@@ -3,7 +3,8 @@ from django.db import models
 
 from .conf import RESPONSE_CODES, PAYMENT_RESPONSE_CODES
 from .signals import (
-    webpay_oneclick_inscription_ok, webpay_oneclick_payment_ok)
+    webpay_oneclick_inscription_ok, webpay_oneclick_payment_ok,
+    webpay_oneclick_reverse_payment)
 
 
 class WebpayOneClickInscription(models.Model):
@@ -84,8 +85,13 @@ class WebpayOneClickPayment(models.Model):
         """
         Enviar signals a la app Django
         """
-        if str(self.response_code) == "0":
-            webpay_oneclick_payment_ok.send(sender=self)
+        # si existe un reverse code se llama el signal corresponiente
+        # si no entonces el pago esta ok
+        if str(self.reverse_code) != "":
+            webpay_oneclick_reverse_payment.send(sender=self)
+        else:
+            if str(self.response_code) == "0":
+                webpay_oneclick_payment_ok.send(sender=self)
 
     class Meta:
         db_table = "webpay_oneclick_payment"
