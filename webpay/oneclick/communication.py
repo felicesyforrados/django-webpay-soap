@@ -114,7 +114,7 @@ class WebpayOneClickWS():
         client = WebpayOneClickWS.get_client()
         client.options.cache.clear()
         reverse_payment = client.factory.create('oneClickReverseInput')
-        reverse_payment.buyOrder = buy_order
+        reverse_payment.buyorder = buy_order
         return client.service.codeReverseOneClick(reverse_payment)
 
     @staticmethod
