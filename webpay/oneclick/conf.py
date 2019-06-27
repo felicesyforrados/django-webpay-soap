@@ -7,14 +7,14 @@ RESPONSE_CODES = {
 
 PAYMENT_RESPONSE_CODES = {
     '0': 'Pago aprobado.',
-    '-1': 'Inscripción rechazada.',
-    '-2': 'Inscripción rechazada.',
-    '-3': 'Inscripción rechazada.',
-    '-4': 'Inscripción rechazada.',
-    '-5': 'Inscripción rechazada.',
-    '-6': 'Inscripción rechazada.',
-    '-7': 'Inscripción rechazada.',
-    '-8': 'Inscripción rechazada.',
+    '-1': 'Pago rechazado.',
+    '-2': 'Pago rechazado.',
+    '-3': 'Pago rechazado.',
+    '-4': 'Pago rechazado.',
+    '-5': 'Pago rechazado.',
+    '-6': 'Pago rechazado.',
+    '-7': 'Pago rechazado.',
+    '-8': 'Pago rechazado.',
     '-98': 'Límites Oneclick, máximo monto de pago excedido',
     '-99': 'Límites Oneclick, máxima cantidad de pagos diarios excedido.'
 }
