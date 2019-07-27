@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from .communication import WebpayOneClickWS
 from .models import WebpayOneClickInscription, WebpayOneClickPayment
 from .signals import webpay_oneclick_remove_inscription_ok
@@ -107,6 +109,7 @@ class WebpayOneClickAPI():
         if wo is True:
             # Desactivamos al usuario de nuestra DB
             woi.inscrito = False
+            woi.date_uninscription = datetime.today()
             woi.save()
             webpay_oneclick_remove_inscription_ok.send(sender=woi)
         return wo
@@ -125,6 +128,7 @@ class WebpayOneClickAPI():
 
         if wo["reversed"] is True:
             wop.reverse_code = wo["reverseCode"]
+            wop.reverse_date = datetime.today()
             wop.save()
             wop.send_signals()
         return wop

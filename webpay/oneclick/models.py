@@ -27,6 +27,7 @@ class WebpayOneClickInscription(models.Model):
         'Últimos 4 números de la tarjeta', max_length=4, blank=True)
     inscrito = models.BooleanField('Esta inscrito correctamente', default=False)
     date_inscription = models.DateTimeField(auto_now=True)
+    date_uninscription = models.DateTimeField(null=True, default=None)
     custom = models.CharField(max_length=250, blank=True)
 
     @property
@@ -70,8 +71,9 @@ class WebpayOneClickPayment(models.Model):
     response_code = models.CharField(
         'Código respuesta de la autorizacion', max_length=10, blank=True)
     reverse_code = models.CharField(
-        'Codigo de transaccion reversada', max_length=10, blank=True)
+        'Codigo de transaccion reversada', max_length=30, blank=True)
     payment_date = models.DateTimeField(auto_now=True)
+    reverse_date = models.DateTimeField(null=True, default=None)
     custom = models.CharField(max_length=250, blank=True)
 
     @property
