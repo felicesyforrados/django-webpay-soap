@@ -1,4 +1,4 @@
-Django Webpay Soap
+"Django Webpay Soap
 ==================
 
 Aplicacion de integracion entre Django y Webpay.
@@ -58,3 +58,9 @@ Configuración Webpay OneClick
 
   > Certificado de WebPay .pem
   >> WEBPAY_ONECLICK_CERT = BASE_DIR + '/certs/webpaycert.pem'
+
+
+Configuración Webpay Anulación
+=============================
+  > URL del WebService
+  >> WEBPAY_SERVICES_WSDL = 'https://webpay3gint.transbank.cl/WSWebpayTransaction/cxf/WSCommerceIntegrationService?wsdl'
