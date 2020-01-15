@@ -2,3 +2,6 @@
 *.pot
 *.pyc
 .venv/
+build/
+dist/
+django_webpay_soap.egg-info/

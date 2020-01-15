@@ -1,8 +1,11 @@
+import logging
 from datetime import datetime
 
 from .communication import WebpayOneClickWS
 from .models import WebpayOneClickInscription, WebpayOneClickPayment
 from .signals import webpay_oneclick_remove_inscription_ok
+
+logger = logging.getLogger(__name__)
 
 
 class WebpayOneClickInitInscription():
@@ -74,6 +77,8 @@ class WebpayOneClickAPI():
         # Se inicia la comunicacion con Transbank.
         wo = WebpayOneClickWS().authorizePayment(
             buy_order, tbk_user, username, amount)
+
+        logger.debug("Webpay Oneclick. Respuesta de autorizacion de pago para usuario {}, respuesta {}".format(username, wo))
 
         wop.authorization_code = wo['authorizationCode'] if "authorizationCode" in wo else ""
         wop.credit_card_type = wo['creditCardType'] if "creditCardType" in wo else ""
