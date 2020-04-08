@@ -16,7 +16,12 @@ def webpay_oneclick_model(token, get_finish_inscription):
     """
     Metodo que ayudara a guardar el modelo.
     """
-    oneclick_model = WebpayOneClickInscription.objects.get(token=token)
+    oneclick_model = None
+    try:
+        oneclick_model = WebpayOneClickInscription.objects.get(token=token)
+    except WebpayOneClickInscription.DoesNotExist:
+        logger.debug("Webpay OneClick. Token {} inexistente en la inscripcion".format(token))
+        return
     oneclick_model.response_code = get_finish_inscription['responseCode']
     if str(oneclick_model.response_code) == '0':
         oneclick_model.inscrito = True
