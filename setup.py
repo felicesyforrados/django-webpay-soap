@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 from setuptools import setup, find_packages
 
-version = '2020.01.15'
+version = '2020.4.8'
 
 setup(
     name='django-webpay-soap',
