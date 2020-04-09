@@ -22,7 +22,6 @@ def webpay_normal_model(get_normal_transaction):
         buyOrder=get_normal_transaction['buyOrder'],
         transactionDate__isnull=True)
     webpaymodel.sessionId = get_normal_transaction['sessionId']
-    webpaymodel.cardNumber = get_normal_transaction.cardDetail['cardNumber']
     webpaymodel.accountingDate = get_normal_transaction['accountingDate']
     webpaymodel.transactionDate = get_normal_transaction['transactionDate']
     webpaymodel.authorizationCode = get_normal_transaction.detailOutput[0]['authorizationCode']
@@ -31,6 +30,11 @@ def webpay_normal_model(get_normal_transaction):
     webpaymodel.amount = int(get_normal_transaction.detailOutput[0]['amount'])
     webpaymodel.sharesNumber = get_normal_transaction.detailOutput[0]['sharesNumber']
     webpaymodel.commerceCode = get_normal_transaction.detailOutput[0]['commerceCode']
+    try:
+        webpaymodel.cardNumber = get_normal_transaction.cardDetail['cardNumber']
+    except Exception, e:
+        logger.debug("Webpay Normal. Ocurrio un error en cardDetail, buy_order {}, e {}".format(
+            get_normal_transaction['buyOrder'], e))
     webpaymodel.send_signals()
     webpaymodel.save()
     return webpaymodel
