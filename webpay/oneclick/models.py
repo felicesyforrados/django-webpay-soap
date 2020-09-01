@@ -56,7 +56,7 @@ class WebpayOneClickPayment(models.Model):
     """
     Modelo para guardar informacion de los pagos autorizados mediante OneClick.
     """
-    inscription = models.ForeignKey(WebpayOneClickInscription, blank=False, null=False)
+    inscription = models.ForeignKey(WebpayOneClickInscription, blank=False, null=False, on_delete=models.DO_NOTHING)
     buy_order = models.CharField(
         'Orden Compra de la tienda', max_length=42, unique=True)
     amount = models.PositiveIntegerField('Monto transacción', default=0)

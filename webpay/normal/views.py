@@ -32,7 +32,7 @@ def webpay_normal_model(get_normal_transaction):
     webpaymodel.commerceCode = get_normal_transaction.detailOutput[0]['commerceCode']
     try:
         webpaymodel.cardNumber = get_normal_transaction.cardDetail['cardNumber']
-    except Exception, e:
+    except Exception as e:
         logger.debug("Webpay Normal. Ocurrio un error en cardDetail, buy_order {}, e {}".format(
             get_normal_transaction['buyOrder'], e))
     webpaymodel.send_signals()
@@ -61,7 +61,7 @@ def webpay_normal_verificacion(request):
                 webpaymodel.responseCode))
             # Obtenemos la redirecion correcta
             urlRedirection = get_normal_transaction['urlRedirection']
-        except Exception, e:
+        except Exception as e:
             logger.error('Ocurrio un error al consultar Token enviado por Transbank {}. Error {} Traza {}'.format(
                 token, e, traceback.format_exc()))
         # Haremos un response del Token que nos envia Transbank y haremos un
