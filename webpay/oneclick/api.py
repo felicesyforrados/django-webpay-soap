@@ -34,15 +34,13 @@ class WebpayOneClickAPI():
         @Return values:
             Object [token, url]
         """
-        model, created = WebpayOneClickInscription.objects.get_or_create(user=username)
-        if not created and model.inscrito is True:
-            raise Exception('User is subscribed')
+
         wo = WebpayOneClickWS().initInscription(username, email, response_url)
         token = wo['token']
-        model.token = token
-        model.save()
+        inscription = WebpayOneClickInscription.objects.create(user=username, token=token)
         return WebpayOneClickInitInscription(
-            token=token, url=wo['urlWebpay'], model=model)
+            token=token, url=wo['urlWebpay'], model=inscription)
+
 
     @staticmethod
     def authorizePayment(buy_order, tbk_user, username, amount, custom):
