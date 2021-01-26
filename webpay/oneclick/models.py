@@ -11,9 +11,9 @@ class WebpayOneClickInscription(models.Model):
     """
     Modelo para guardar informacion de OneClick
     """
-    id = models.IntegerField('id')
+    id = models.IntegerField('id', primary_key=True)
     user = models.CharField(
-        'Username del usuario del comercio', max_length=100, primary_key=True)
+        'Username del usuario del comercio', max_length=100)
     token = models.CharField(
         'Token proporcionado por Transbank', max_length=300, blank=True)
     tbk_user = models.CharField(
