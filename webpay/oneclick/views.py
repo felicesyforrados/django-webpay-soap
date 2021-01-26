@@ -49,7 +49,7 @@ def webpay_oneclick_finish(request):
             logger.debug('Webpay OneClick. Token {} Respuesta {}'.format(
                 token, get_finish_inscription))
             webpay_oneclick_model(token, get_finish_inscription)
-        except Exception, e:
+        except Exception as e:
             logger.error('Webpay OneClick. Ocurrion un error al consultar Token enviado por Transbank {}. Error {} Traza {}'.format(
                 token, e, traceback.format_exc()))
 

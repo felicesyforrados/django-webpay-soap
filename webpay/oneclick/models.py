@@ -11,6 +11,7 @@ class WebpayOneClickInscription(models.Model):
     """
     Modelo para guardar informacion de OneClick
     """
+    id = models.IntegerField('id')
     user = models.CharField(
         'Username del usuario del comercio', max_length=100, primary_key=True)
     token = models.CharField(
@@ -26,7 +27,7 @@ class WebpayOneClickInscription(models.Model):
     card_number = models.CharField(
         'Últimos 4 números de la tarjeta', max_length=4, blank=True)
     inscrito = models.BooleanField('Esta inscrito correctamente', default=False)
-    date_inscription = models.DateTimeField(auto_now=True)
+    date_inscription = models.DateTimeField(auto_now_add=True)
     date_uninscription = models.DateTimeField(null=True, default=None)
     custom = models.CharField(max_length=250, blank=True)
 
@@ -56,7 +57,7 @@ class WebpayOneClickPayment(models.Model):
     """
     Modelo para guardar informacion de los pagos autorizados mediante OneClick.
     """
-    inscription = models.ForeignKey(WebpayOneClickInscription, blank=False, null=False)
+    inscription = models.ForeignKey(WebpayOneClickInscription, blank=False, null=False, on_delete=models.CASCADE)
     buy_order = models.CharField(
         'Orden Compra de la tienda', max_length=42, unique=True)
     amount = models.PositiveIntegerField('Monto transacción', default=0)
