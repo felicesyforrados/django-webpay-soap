@@ -52,11 +52,57 @@ class WebpayOneClickInscription(models.Model):
         verbose_name = "Webpay OneClick Inscription"
 
 
+class WebpayOneClickMultipleInscription(models.Model):
+    """
+    Modelo para guardar Multiples Incripciones de OneClick
+    """
+    user = models.CharField(
+        'Username del usuario del comercio', max_length=100, null=False)
+    token = models.CharField(
+        'Token proporcionado por Transbank', max_length=300, blank=True)
+    tbk_user = models.CharField(
+        'Username del usuario en Transbank', max_length=200, blank=True)
+    response_code = models.CharField(
+        'Código respuesta de la autorizacion', max_length=10, blank=True)
+    authorization_code = models.CharField(
+        'Código autorización de la transacción', max_length=8, blank=True)
+    creditcard_type = models.CharField(
+        'Tipo de tarjeta inscrita por el cliente', max_length=10, blank=True)
+    card_number = models.CharField(
+        'Últimos 4 números de la tarjeta', max_length=4, blank=True)
+    inscrito = models.BooleanField('Esta inscrito correctamente', default=False)
+    date_inscription = models.DateTimeField(auto_now_add=True)
+    date_uninscription = models.DateTimeField(null=True, default=None)
+    custom = models.CharField(max_length=250, blank=True)
+
+    @property
+    def humanized_response_code(self):
+        """
+        Response code humanizado
+        """
+        return RESPONSE_CODES.get(self.response_code)
+
+    def send_signals(self):
+        """
+        Enviar signals a la app Django.
+        """
+        if str(self.response_code) == "0":  # Inscrito correctamente
+            webpay_oneclick_multiple_inscription_ok.send(sender=self)
+
+    def __unicode__(self):
+        return "User: {}".format(self.user)
+
+    class Meta:
+        db_table = "webpay_oneclick_multiple_inscription"
+        verbose_name = "Webpay OneClick Inscription"
+
+
 class WebpayOneClickPayment(models.Model):
     """
     Modelo para guardar informacion de los pagos autorizados mediante OneClick.
     """
-    inscription = models.ForeignKey(WebpayOneClickInscription, blank=False, null=False)
+    inscription = models.ForeignKey(WebpayOneClickInscription, null=True, on_delete=models.CASCADE)
+    multipleinscription = models.ForeignKey(WebpayOneClickMultipleInscription, null=True, on_delete=models.CASCADE)
     buy_order = models.CharField(
         'Orden Compra de la tienda', max_length=42, unique=True)
     amount = models.PositiveIntegerField('Monto transacción', default=0)
