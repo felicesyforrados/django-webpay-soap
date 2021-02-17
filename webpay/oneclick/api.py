@@ -2,7 +2,7 @@ import logging
 from datetime import datetime
 
 from .communication import WebpayOneClickWS
-from .models import WebpayOneClickInscription, WebpayOneClickPayment
+from .models import WebpayOneClickPayment, WebpayOneClickMultipleInscription
 from .signals import webpay_oneclick_remove_inscription_ok
 
 logger = logging.getLogger(__name__)
@@ -34,15 +34,12 @@ class WebpayOneClickAPI():
         @Return values:
             Object [token, url]
         """
-        model, created = WebpayOneClickInscription.objects.get_or_create(user=username)
-        if not created and model.inscrito is True:
-            raise Exception('User is subscribed')
         wo = WebpayOneClickWS().initInscription(username, email, response_url)
         token = wo['token']
-        model.token = token
-        model.save()
+        inscription = WebpayOneClickMultipleInscription.objects.create(user=username, token=token)
+
         return WebpayOneClickInitInscription(
-            token=token, url=wo['urlWebpay'], model=model)
+            token=token, url=wo['urlWebpay'], model=inscription)
 
     @staticmethod
     def authorizePayment(buy_order, tbk_user, username, amount, custom):
@@ -65,20 +62,24 @@ class WebpayOneClickAPI():
         # Obtenemos el usuario, debe estar inscrito con una tarjeta
         woi = None
         try:
-            woi = WebpayOneClickInscription.objects.get(
+            woi = WebpayOneClickMultipleInscription.objects.get(
                 user=username, inscrito=True)
-        except WebpayOneClickInscription.DoesNotExist:
+        except WebpayOneClickMultipleInscription.DoesNotExist:
             raise Exception('Usuario no encontrado inscrito {}.'.format(username))
+        except WebpayOneClickMultipleInscription.MultipleObjectsReturned:
+            raise Exception('Posee varias tarjetas activas {}.'.format(username))
 
         # Guardamos la info del pago que se inicia
         wop = WebpayOneClickPayment.objects.create(
-            inscription=woi, buy_order=buy_order, amount=amount)
+            multipleinscription=woi, buy_order=buy_order, amount=amount)
 
         # Se inicia la comunicacion con Transbank.
         wo = WebpayOneClickWS().authorizePayment(
             buy_order, tbk_user, username, amount)
 
         logger.debug("Webpay Oneclick. Respuesta de autorizacion de pago para usuario {}, respuesta {}".format(username, wo))
+        logger.debug("order {}".format(buy_order))
+        logger.debug("order2 {}".format(wop.buy_order))
 
         wop.authorization_code = wo['authorizationCode'] if "authorizationCode" in wo else ""
         wop.credit_card_type = wo['creditCardType'] if "creditCardType" in wo else ""
@@ -86,8 +87,9 @@ class WebpayOneClickAPI():
         wop.transaction_id = wo['transactionId'] if "transactionId" in wo else ""
         wop.response_code = wo['responseCode'] if "responseCode" in wo else ""
         wop.custom = custom
-        wop.send_signals()
         wop.save()
+        wop.send_signals()
+
         return wop
 
     @staticmethod
@@ -104,10 +106,12 @@ class WebpayOneClickAPI():
         woi = None
         # Obtenemos el usuario inscrito
         try:
-            woi = WebpayOneClickInscription.objects.get(
+            woi = WebpayOneClickMultipleInscription.objects.get(
                 user=username, tbk_user=tbk_user, inscrito=True)
-        except WebpayOneClickInscription.DoesNotExist:
+        except WebpayOneClickMultipleInscription.DoesNotExist:
             raise Exception('Usuario no encontrado inscrito {}.'.format(username))
+        except WebpayOneClickMultipleInscription.MultipleObjectsReturned:
+            raise Exception('Posee varias tarjetas activas {}.'.format(username))
 
         wo = WebpayOneClickWS().removeInscription(woi.tbk_user, woi.user)
 

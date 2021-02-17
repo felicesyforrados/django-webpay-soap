@@ -1,14 +1,14 @@
 from django.contrib import admin
-from .models import WebpayOneClickInscription, WebpayOneClickPayment
+from .models import WebpayOneClickMultipleInscription, WebpayOneClickPayment
 
 
-class WebpayOneClickInscriptionAdmin(admin.ModelAdmin):
+class WebpayOneClickMultipleInscriptionAdmin(admin.ModelAdmin):
     """
     Modelo de administracion de Inscripciones de Admin
     """
     list_display = ("user", "tbk_user", "response_code", "date_inscription")
 
-admin.site.register(WebpayOneClickInscription, WebpayOneClickInscriptionAdmin)
+admin.site.register(WebpayOneClickMultipleInscription, WebpayOneClickMultipleInscriptionAdmin)
 
 
 class WebpayOneClickPaymentAdmin(admin.ModelAdmin):
@@ -17,4 +17,4 @@ class WebpayOneClickPaymentAdmin(admin.ModelAdmin):
     """
     list_display = ("inscription", "buy_order", "amount", "response_code")
 
-admin.site.register(WebpayOneClickPayment, WebpayOneClickInscriptionAdmin)
+admin.site.register(WebpayOneClickPayment, WebpayOneClickMultipleInscriptionAdmin)

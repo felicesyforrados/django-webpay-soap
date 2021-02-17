@@ -7,7 +7,7 @@ from django.template import Context, Template
 from django.views.decorators.csrf import csrf_exempt
 
 from .communication import WebpayOneClickWS
-from .models import WebpayOneClickInscription
+from .models import WebpayOneClickMultipleInscription
 
 logger = logging.getLogger(__name__)
 
@@ -18,10 +18,14 @@ def webpay_oneclick_model(token, get_finish_inscription):
     """
     oneclick_model = None
     try:
-        oneclick_model = WebpayOneClickInscription.objects.get(token=token)
-    except WebpayOneClickInscription.DoesNotExist:
+        oneclick_model = WebpayOneClickMultipleInscription.objects.get(token=token)
+    except WebpayOneClickMultipleInscription.DoesNotExist:
         logger.debug("Webpay OneClick. Token {} inexistente en la inscripcion".format(token))
         return
+    except WebpayOneClickMultipleInscription.MultipleObjectsReturned:
+        raise Exception('Posee varias tarjetas activas {}.'.format(oneclick_model))
+        return
+
     oneclick_model.response_code = get_finish_inscription['responseCode']
     if str(oneclick_model.response_code) == '0':
         oneclick_model.inscrito = True
