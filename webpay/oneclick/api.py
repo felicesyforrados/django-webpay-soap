@@ -78,8 +78,6 @@ class WebpayOneClickAPI():
             buy_order, tbk_user, username, amount)
 
         logger.debug("Webpay Oneclick. Respuesta de autorizacion de pago para usuario {}, respuesta {}".format(username, wo))
-        logger.debug("order {}".format(buy_order))
-        logger.debug("order2 {}".format(wop.buy_order))
 
         wop.authorization_code = wo['authorizationCode'] if "authorizationCode" in wo else ""
         wop.credit_card_type = wo['creditCardType'] if "creditCardType" in wo else ""
@@ -87,9 +85,8 @@ class WebpayOneClickAPI():
         wop.transaction_id = wo['transactionId'] if "transactionId" in wo else ""
         wop.response_code = wo['responseCode'] if "responseCode" in wo else ""
         wop.custom = custom
-        wop.save()
         wop.send_signals()
-
+        wop.save()
         return wop
 
     @staticmethod

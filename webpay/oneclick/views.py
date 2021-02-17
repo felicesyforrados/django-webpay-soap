@@ -23,7 +23,7 @@ def webpay_oneclick_model(token, get_finish_inscription):
         logger.debug("Webpay OneClick. Token {} inexistente en la inscripcion".format(token))
         return
     except WebpayOneClickMultipleInscription.MultipleObjectsReturned:
-        raise Exception('Posee varias tarjetas activas {}.'.format(oneclick_model))
+        raise Exception('Posee varias tarjetas activas {}.'.format(token))
         return
 
     oneclick_model.response_code = get_finish_inscription['responseCode']
