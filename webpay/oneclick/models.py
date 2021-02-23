@@ -4,7 +4,7 @@ from django.db import models
 from .conf import RESPONSE_CODES, PAYMENT_RESPONSE_CODES
 from .signals import (
     webpay_oneclick_inscription_ok, webpay_oneclick_payment_ok,
-    webpay_oneclick_reverse_payment)
+    webpay_oneclick_reverse_payment, webpay_oneclick_multiple_inscription_ok)
 
 
 class WebpayOneClickInscription(models.Model):
