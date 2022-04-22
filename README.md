@@ -1,4 +1,4 @@
-Django Webpay Soap
+Django Webpay Soap (backed)
 ==================
 
 Aplicacion de integracion entre Django y Webpay.
